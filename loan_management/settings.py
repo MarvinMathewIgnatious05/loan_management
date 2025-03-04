@@ -47,17 +47,24 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'authentication.User'
 
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Forces auth globally
+    ],
 }
+
+
 
 from datetime import timedelta
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
 }
 
 MIDDLEWARE = [
@@ -110,9 +117,9 @@ WSGI_APPLICATION = 'loan_management.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'loan_db',   # Your database name
-        'USER': 'loan_user',  # PostgreSQL username
-        'PASSWORD': 'loan_user123',  # PostgreSQL password
+        'NAME': 'loan_management_db',   # Your database name
+        'USER': 'postgres',  # PostgreSQL username
+        'PASSWORD': 'marvin@123',  # PostgreSQL password
         'HOST': 'localhost',  # If running locally
         'PORT': '5432',  # Default PostgreSQL port
     }
