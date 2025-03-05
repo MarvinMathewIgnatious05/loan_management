@@ -101,29 +101,22 @@ WSGI_APPLICATION = 'loan_management.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+import environ
+import os
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',  # ✅ Use djongo for MongoDB
-#         'NAME': 'loanmanagement_db',
-#         'CLIENT': {
-#             'host': 'mongodb+srv://marvinnmt2024:hykr3AYkMsvLY7Xp@cluster0.bnolt.mongodb.net/loanmanagement_db?retryWrites=true&w=majority',
-#             'username': 'marvinnmt2024',  # If you have authentication
-#             'password': 'hykr3AYkMsvLY7Xp',  # If you have authentication
-#             'authSource': 'admin',
-#         }
-#     }
-# }
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
+# Configure PostgreSQL Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'loan_management_db',   # Your database name
-        'USER': 'postgres',  # PostgreSQL username
-        'PASSWORD': 'marvin@123',  # PostgreSQL password
-        'HOST': 'localhost',  # If running locally
-        'PORT': '5432',  # Default PostgreSQL port
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 
